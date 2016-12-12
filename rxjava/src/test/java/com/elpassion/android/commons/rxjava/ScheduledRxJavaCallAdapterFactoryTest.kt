@@ -44,7 +44,7 @@ class ScheduledRxJavaCallAdapterFactoryTest {
     }
 
     @Test
-    fun shouldSubscribeOnProperThread() {
+    fun shouldSubscribeOnProperScheduler() {
         val service = createRetrofit(Schedulers.immediate(), subscribeOn).create(Service::class.java)
         service.call().subscribe(testSubscriber)
 
