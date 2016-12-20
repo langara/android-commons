@@ -10,7 +10,6 @@ import com.elpassion.android.commons.recycler_example.R
 import com.elpassion.android.commons.recycler_example.common.OtherSimpleUserItemAdapter
 import com.elpassion.android.commons.recycler_example.common.SimpleUserItemAdapter
 import com.elpassion.android.commons.recycler_example.common.createManyUsers
-import com.elpassion.android.commons.recycler_example.menu.ExampleItem
 import kotlinx.android.synthetic.main.recycler_view.*
 
 class SimpleListActivity : AppCompatActivity() {
