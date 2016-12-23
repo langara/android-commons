@@ -11,7 +11,7 @@ class OtherSimpleUserItemAdapter(private val user: User) : ItemAdapter<OtherSimp
 
     override fun onBindViewHolder(holder: VH) {
         with(holder.itemView) {
-            userName.text = user.userName
+            userName.text = user.userName.toUpperCase()
             organization.text = user.organization
         }
     }

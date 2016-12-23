@@ -21,18 +21,15 @@ class BasicListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recycler_view)
-        val users = createManyUsers()
+        val users = createManyUsers().asBasicList()
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        recyclerView.adapter = BasicAdapter(
-                users.asBasicList(),
-                getType = { position ->
-                    if(users[position].organization == "A") R.layout.github_item else R.layout.other_github_item
-                },
-                create = { viewParent, viewType ->
-                    SimpleUserBinder(viewParent.inflate(viewType))
-                }
-        )
+        recyclerView.adapter = BasicAdapter<View, User>(users) { position ->
+             if(users[position].organization == "A")
+                 R.layout.github_item to { parent -> SimpleUserBinder(parent.inflate(R.layout.github_item))}
+             else
+                 R.layout.other_github_item to { parent -> OtherUserBinder(parent.inflate(R.layout.other_github_item))}
+        }
     }
 
     class SimpleUserBinder(itemView: View) : ViewBinder<View, User>(itemView) {
@@ -42,9 +39,16 @@ class BasicListActivity : AppCompatActivity() {
         }
     }
 
+    class OtherUserBinder(itemView: View) : ViewBinder<View, User>(itemView) {
+        override fun bind(item: User) {
+            itemView.userName.text = item.userName.reversed()
+            itemView.organization.text = item.organization
+        }
+    }
+
     companion object {
         fun start(context: Context) {
-            context.startActivity(Intent(context, SimpleListActivity::class.java))
+            context.startActivity(Intent(context, BasicListActivity::class.java))
         }
 
         const val DESCRIPTION = "Basic recycler with different item views"
