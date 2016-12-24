@@ -24,7 +24,7 @@ class BasicListActivity : AppCompatActivity() {
         val users = createManyUsers().asBasicList()
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        recyclerView.adapter = BasicAdapter<View, User>(users) { position ->
+        recyclerView.adapter = BasicAdapter.create<View, User>(users) { position ->
              if(users[position].organization == "A")
                  R.layout.github_item to { parent -> SimpleUserBinder(parent.inflate(R.layout.github_item))}
              else
