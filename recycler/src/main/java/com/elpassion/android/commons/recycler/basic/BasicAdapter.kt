@@ -8,7 +8,7 @@ import java.util.*
 
 abstract class BasicAdapter<V : View, I>(val items: BasicList<I>) : RecyclerView.Adapter<BasicViewHolder<V, I>>() {
 
-    override abstract fun getItemViewType(position: Int): Int
+    override fun getItemViewType(position: Int) = 0
 
     override abstract fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BasicViewHolder<V, I>
 
