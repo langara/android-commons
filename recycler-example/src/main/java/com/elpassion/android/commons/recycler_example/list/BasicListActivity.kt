@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.elpassion.android.commons.recycler.basic.BasicAdapter
+import com.elpassion.android.commons.recycler.adapters.basicAdapterWithCreator
 import com.elpassion.android.commons.recycler.basic.BasicViewHolder
 import com.elpassion.android.commons.recycler.basic.asBasicList
 import com.elpassion.android.commons.recycler_example.R
@@ -24,11 +24,11 @@ class BasicListActivity : AppCompatActivity() {
         val users = createManyUsers().asBasicList()
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        recyclerView.adapter = BasicAdapter.create<View, User>(users) { position ->
-             if(users[position].organization == "A")
-                 R.layout.github_item to { parent -> SimpleUserHolder(parent.inflate(R.layout.github_item))}
-             else
-                 R.layout.other_github_item to { parent -> OtherUserHolder(parent.inflate(R.layout.other_github_item))}
+        recyclerView.adapter = basicAdapterWithCreator<View, User>(users) { position ->
+            if (users[position].organization == "A")
+                R.layout.github_item to { parent -> SimpleUserHolder(parent.inflate(R.layout.github_item)) }
+            else
+                R.layout.other_github_item to { parent -> OtherUserHolder(parent.inflate(R.layout.other_github_item)) }
         }
     }
 

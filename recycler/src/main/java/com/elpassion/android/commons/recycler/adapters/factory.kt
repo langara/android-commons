@@ -1,7 +1,12 @@
 package com.elpassion.android.commons.recycler.adapters
 
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.view.ViewGroup
 import com.elpassion.android.commons.recycler.RecyclerViewCompositeAdapter
+import com.elpassion.android.commons.recycler.basic.BasicAdapter
+import com.elpassion.android.commons.recycler.basic.BasicList
+import com.elpassion.android.commons.recycler.basic.BasicViewHolder
 import com.elpassion.android.commons.recycler.components.ItemsStrategy
 import com.elpassion.android.commons.recycler.components.base.ItemAdapter
 import com.elpassion.android.commons.recycler.components.base.ListItemsStrategy
@@ -10,6 +15,8 @@ import com.elpassion.android.commons.recycler.components.group.SectionedItemsStr
 import com.elpassion.android.commons.recycler.components.stable.StableItemAdapter
 import com.elpassion.android.commons.recycler.components.stable.createStableIdInitialization
 import com.elpassion.android.commons.recycler.components.stable.getStableItemIdentifier
+import com.elpassion.android.view.inflate
+import java.util.*
 
 fun recyclerViewAdapter(adapters: List<ItemAdapter<*>>) = RecyclerViewCompositeAdapter(ListItemsStrategy(adapters))
 
@@ -26,3 +33,33 @@ fun <Section, Item : StableItemAdapter<out RecyclerView.ViewHolder>> stableSecti
                 itemsStrategy = itemsStrategy,
                 getItemIdentifier = getStableItemIdentifier(itemsStrategy),
                 init = createStableIdInitialization())
+
+fun <V : View, I> basicAdapterWithHolder(items: BasicList<I>, createHolder: (parent: ViewGroup) -> BasicViewHolder<V, I>) =
+        object : BasicAdapter<V, I>(items) {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createHolder(parent)
+        }
+
+fun <V : View, I> basicAdapterWithView(items: BasicList<I>, createView: (parent: ViewGroup) -> V) =
+        basicAdapterWithHolder(items) { parent -> BasicViewHolder<V, I>(createView(parent)) }
+
+fun <I> basicAdapterWithLayout(items: BasicList<I>, layout: Int) =
+        basicAdapterWithView(items) { parent -> parent.inflate(layout) }
+
+fun <I> basicAdapterWithLayoutAndBinder(items: BasicList<I>, layout: Int, binder: (holder: BasicViewHolder<View, I>, item: I) -> Unit) =
+        basicAdapterWithHolder(items) { parent ->
+            object : BasicViewHolder<View, I>(parent.inflate(layout)) {
+                override fun bind(item: I) = binder(this, item)
+            }
+        }
+
+fun <V : View, I> basicAdapterWithCreator(items: BasicList<I>, getTypeAndCreator: (position: Int) -> Pair<Int, (parent: ViewGroup) -> BasicViewHolder<V, I>>) =
+        object : BasicAdapter<V, I>(items) {
+            private val creators = HashMap<Int, (parent: ViewGroup) -> BasicViewHolder<V, I>>()
+            override fun getItemViewType(position: Int): Int {
+                val (type, creator) = getTypeAndCreator(position)
+                creators[type] = creator
+                return type
+            }
+
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = creators[viewType]!!(parent)
+        }
