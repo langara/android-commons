@@ -3,6 +3,7 @@ package com.elpassion.android.commons.recycler.basic
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import com.elpassion.android.view.inflate
 import java.util.*
 
 
@@ -17,6 +18,10 @@ abstract class BasicAdapter<V : View, I>(val items: BasicList<I>) : RecyclerView
     override fun getItemCount() = items.size
 
     companion object {
+
+        fun <I> create(items: BasicList<I>, layout: Int) = object : BasicAdapter<View, I>(items) {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = BasicViewHolder<View, I>(parent.inflate(layout))
+        }
 
         fun <V : View, I> create(
                 items: BasicList<I>,

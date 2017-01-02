@@ -31,5 +31,4 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile project(":recycler")
-    compile project(":view")
 }
