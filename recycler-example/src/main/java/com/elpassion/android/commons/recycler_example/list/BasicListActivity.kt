@@ -7,13 +7,10 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.elpassion.android.commons.recycler.adapters.basicAdapterWithCreator
-import com.elpassion.android.commons.recycler.basic.BasicViewHolder
 import com.elpassion.android.commons.recycler.basic.asBasicList
 import com.elpassion.android.commons.recycler_example.R
-import com.elpassion.android.commons.recycler_example.common.User
-import com.elpassion.android.commons.recycler_example.common.createManyUsers
+import com.elpassion.android.commons.recycler_example.common.*
 import com.elpassion.android.view.inflate
-import kotlinx.android.synthetic.main.github_item.view.*
 import kotlinx.android.synthetic.main.recycler_view.*
 
 class BasicListActivity : AppCompatActivity() {
@@ -26,23 +23,9 @@ class BasicListActivity : AppCompatActivity() {
 
         recyclerView.adapter = basicAdapterWithCreator<View, User>(users) { position ->
             if (users[position].organization == "A")
-                R.layout.github_item to { parent -> SimpleUserHolder(parent.inflate(R.layout.github_item)) }
+                R.layout.github_item to { parent -> SimpleUserViewHolder(parent.inflate(R.layout.github_item)) }
             else
-                R.layout.other_github_item to { parent -> OtherUserHolder(parent.inflate(R.layout.other_github_item)) }
-        }
-    }
-
-    class SimpleUserHolder(itemView: View) : BasicViewHolder<View, User>(itemView) {
-        override fun bind(item: User) {
-            itemView.userName.text = item.userName
-            itemView.organization.text = item.organization
-        }
-    }
-
-    class OtherUserHolder(itemView: View) : BasicViewHolder<View, User>(itemView) {
-        override fun bind(item: User) {
-            itemView.userName.text = item.userName.reversed()
-            itemView.organization.text = item.organization
+                R.layout.other_github_item to { parent -> OtherSimpleUserViewHolder(parent.inflate(R.layout.other_github_item)) }
         }
     }
 
