@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.elpassion.android.commons.recycler.basic.BasicAdapter
-import com.elpassion.android.commons.recycler.basic.ViewBinder
+import com.elpassion.android.commons.recycler.basic.BasicViewHolder
 import com.elpassion.android.commons.recycler.basic.asBasicList
 import com.elpassion.android.commons.recycler_example.R
 import com.elpassion.android.commons.recycler_example.common.User
@@ -26,20 +26,20 @@ class BasicListActivity : AppCompatActivity() {
 
         recyclerView.adapter = BasicAdapter.create<View, User>(users) { position ->
              if(users[position].organization == "A")
-                 R.layout.github_item to { parent -> SimpleUserBinder(parent.inflate(R.layout.github_item))}
+                 R.layout.github_item to { parent -> SimpleUserHolder(parent.inflate(R.layout.github_item))}
              else
-                 R.layout.other_github_item to { parent -> OtherUserBinder(parent.inflate(R.layout.other_github_item))}
+                 R.layout.other_github_item to { parent -> OtherUserHolder(parent.inflate(R.layout.other_github_item))}
         }
     }
 
-    class SimpleUserBinder(itemView: View) : ViewBinder<View, User>(itemView) {
+    class SimpleUserHolder(itemView: View) : BasicViewHolder<View, User>(itemView) {
         override fun bind(item: User) {
             itemView.userName.text = item.userName
             itemView.organization.text = item.organization
         }
     }
 
-    class OtherUserBinder(itemView: View) : ViewBinder<View, User>(itemView) {
+    class OtherUserHolder(itemView: View) : BasicViewHolder<View, User>(itemView) {
         override fun bind(item: User) {
             itemView.userName.text = item.userName.reversed()
             itemView.organization.text = item.organization
