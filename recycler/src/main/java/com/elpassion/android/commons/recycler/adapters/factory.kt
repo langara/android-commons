@@ -39,12 +39,6 @@ fun <V : View, I> basicAdapterWithHolder(items: BasicList<I>, createHolder: (par
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createHolder(parent)
         }
 
-fun <V : View, I> basicAdapterWithView(items: BasicList<I>, createView: (parent: ViewGroup) -> V) =
-        basicAdapterWithHolder(items) { parent -> BasicViewHolder<V, I>(createView(parent)) }
-
-fun <I> basicAdapterWithLayout(items: BasicList<I>, layout: Int) =
-        basicAdapterWithView(items) { parent -> parent.inflate(layout) }
-
 fun <I> basicAdapterWithLayoutAndBinder(items: BasicList<I>, layout: Int, binder: (holder: BasicViewHolder<View, I>, item: I) -> Unit) =
         basicAdapterWithHolder(items) { parent ->
             object : BasicViewHolder<View, I>(parent.inflate(layout)) {
