@@ -21,6 +21,8 @@
 
         <activity android:name=".group.RecyclerWithSectionActivity" />
 
+        <activity android:name=".group.BasicRecyclerWithSectionActivity" />
+
         <activity android:name=".group.MutableRecyclerWithSectionsActivity" />
 
         <activity android:name=".group.StableMutableRecyclerWithSectionsActivity" />
