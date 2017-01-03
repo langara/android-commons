@@ -2,7 +2,7 @@ package com.elpassion.android.commons.recycler.basic
 
 fun <Item> List<Item>.asBasicList() = object : BasicList<Item> {
 
-    override fun get(key: Int): Item = this@asBasicList[key]
+    override fun get(key: Int) = this@asBasicList[key]
 
     override val size: Int get() = this@asBasicList.size
 }
@@ -17,12 +17,11 @@ fun <K, V> Map<K, List<V>>.asBasicMapOfBasicLists() = object : BasicMap<K, Basic
 
 fun <Section, Item> Map<Section, List<Item>>.asBasicListWithSections() = object : BasicListWithSections<Item, Section> {
 
+    override val sections = this@asBasicListWithSections.asBasicMapOfBasicLists()
+
     private val items = this@asBasicListWithSections.values.flatten()
 
     override fun get(key: Int) = items[key]
 
-    override val size: Int get() = this@asBasicListWithSections.size
-    override val sections: BasicMap<Section, BasicList<Item>?>
-        get() = this@asBasicListWithSections.asBasicMapOfBasicLists()
-
+    override val size: Int get() = items.size
 }
