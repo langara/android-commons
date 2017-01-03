@@ -6,10 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import com.elpassion.android.commons.recycler.adapters.basicAdapterWithLayoutAndBinder
 import com.elpassion.android.commons.recycler.basic.asBasicList
 import com.elpassion.android.commons.recycler_example.R
-import com.elpassion.android.commons.recycler_example.group.BasicRecyclerWithSectionActivity
-import com.elpassion.android.commons.recycler_example.group.MutableRecyclerWithSectionsActivity
-import com.elpassion.android.commons.recycler_example.group.RecyclerWithSectionActivity
-import com.elpassion.android.commons.recycler_example.group.StableMutableRecyclerWithSectionsActivity
+import com.elpassion.android.commons.recycler_example.group.*
 import com.elpassion.android.commons.recycler_example.list.BasicListActivity
 import com.elpassion.android.commons.recycler_example.list.SimpleListActivity
 import kotlinx.android.synthetic.main.example_item.view.*
@@ -28,7 +25,8 @@ class MenuActivity : AppCompatActivity() {
                 ExampleItem(name = RecyclerWithSectionActivity.DESCRIPTION, onClick = { RecyclerWithSectionActivity.start(this) }),
                 ExampleItem(name = BasicRecyclerWithSectionActivity.DESCRIPTION, onClick = { BasicRecyclerWithSectionActivity.start(this) }),
                 ExampleItem(name = MutableRecyclerWithSectionsActivity.DESCRIPTION, onClick = { MutableRecyclerWithSectionsActivity.start(this) }),
-                ExampleItem(name = StableMutableRecyclerWithSectionsActivity.DESCRIPTION, onClick = { StableMutableRecyclerWithSectionsActivity.start(this) })
+                ExampleItem(name = StableMutableRecyclerWithSectionsActivity.DESCRIPTION, onClick = { StableMutableRecyclerWithSectionsActivity.start(this) }),
+                ExampleItem(name = BasicMutableRecyclerWithSectionsActivity.DESCRIPTION, onClick = { BasicMutableRecyclerWithSectionsActivity.start(this) })
         ).asBasicList()
 
         recyclerView.adapter = basicAdapterWithLayoutAndBinder(examples, R.layout.example_item) { holder, item ->
