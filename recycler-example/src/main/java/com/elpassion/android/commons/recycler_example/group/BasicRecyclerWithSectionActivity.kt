@@ -6,11 +6,12 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import com.elpassion.android.commons.recycler.adapters.basicAdapterWithLayout
+import com.elpassion.android.commons.recycler.adapters.basicAdapterWithLayoutAndBinder
 import com.elpassion.android.commons.recycler.basic.asBasicListWithSections
 import com.elpassion.android.commons.recycler_example.R
 import com.elpassion.android.commons.recycler_example.common.User
 import com.elpassion.android.commons.recycler_example.common.createManyUsers
+import kotlinx.android.synthetic.main.github_item.view.*
 import kotlinx.android.synthetic.main.recycler_view.*
 
 class BasicRecyclerWithSectionActivity : AppCompatActivity() {
@@ -20,9 +21,15 @@ class BasicRecyclerWithSectionActivity : AppCompatActivity() {
         setContentView(R.layout.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
         val users = createManyUsers().groupBy(User::organization).asBasicListWithSections()
-        recyclerView.adapter = basicAdapterWithLayout(users, R.layout.github_item)
+        recyclerView.adapter = basicAdapterWithLayoutAndBinder(users, R.layout.github_item) { holder, user ->
+            with(holder.itemView) {
+                userName.text = user.userName
+                organization.text = user.organization
+            }
+        }
 
-        Log.i(BasicRecyclerWithSectionActivity::class.java.name, users.sections["A"]!!.size.toString())
+        Log.i(BasicRecyclerWithSectionActivity::class.java.name, "Section A size: ${users.sections["A"]!!.size}")
+        Log.i(BasicRecyclerWithSectionActivity::class.java.name, "Section B size: ${users.sections["B"]!!.size}")
     }
 
     companion object {
