@@ -57,3 +57,9 @@ fun <V : View, I> basicAdapterWithCreator(items: BasicList<I>, getTypeAndCreator
 
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = creators[viewType]!!(parent)
         }
+
+fun <I> basicAdapterWithConstructors(items: BasicList<I>, getLayoutAndConstructor: (position: Int) -> Pair<Int, (itemView: View) -> BasicViewHolder<View, I>>) =
+        basicAdapterWithCreator(items) { position ->
+            val (layout, constructor) = getLayoutAndConstructor(position)
+            layout to { parent: ViewGroup -> constructor(parent.inflate(layout)) }
+        }

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.elpassion.android.commons.recycler.adapters.basicAdapterWithCreator
+import com.elpassion.android.commons.recycler.adapters.basicAdapterWithConstructors
 import com.elpassion.android.commons.recycler.basic.addAll
 import com.elpassion.android.commons.recycler.basic.asBasicListWithMutableSections
 import com.elpassion.android.commons.recycler.basic.asBasicMutableList
@@ -25,11 +26,11 @@ class BasicMutableRecyclerWithSectionsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recycler_view_with_action)
         recyclerView.layoutManager = android.support.v7.widget.LinearLayoutManager(this)
-        val adapter = basicAdapterWithCreator<View, User>(users) { position ->
+        val adapter = basicAdapterWithConstructors<User>(users) { position ->
             if (users[position].organization == "A")
-                R.layout.github_item to { parent -> SimpleUserViewHolder(parent.inflate(R.layout.github_item)) }
+                R.layout.github_item to ::SimpleUserViewHolder
             else
-                R.layout.other_github_item to { parent -> OtherSimpleUserViewHolder(parent.inflate(R.layout.other_github_item)) }
+                R.layout.other_github_item to ::OtherSimpleUserViewHolder
         }
         adapter.setHasStableIds(true)
         recyclerView.adapter = adapter
