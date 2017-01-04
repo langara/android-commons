@@ -5,13 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
 import com.elpassion.android.commons.recycler.adapters.basicAdapterWithConstructors
-import com.elpassion.android.commons.recycler.adapters.basicAdapterWithCreator
 import com.elpassion.android.commons.recycler.basic.asBasicList
 import com.elpassion.android.commons.recycler_example.R
-import com.elpassion.android.commons.recycler_example.common.*
-import com.elpassion.android.view.inflate
+import com.elpassion.android.commons.recycler_example.common.OtherSimpleUserViewHolder
+import com.elpassion.android.commons.recycler_example.common.SimpleUserViewHolder
+import com.elpassion.android.commons.recycler_example.common.createManyUsers
 import kotlinx.android.synthetic.main.recycler_view.*
 
 class BasicListActivity : AppCompatActivity() {
@@ -22,7 +21,7 @@ class BasicListActivity : AppCompatActivity() {
         val users = createManyUsers().asBasicList()
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        recyclerView.adapter = basicAdapterWithConstructors<User>(users) { position ->
+        recyclerView.adapter = basicAdapterWithConstructors(users) { position ->
             if (users[position].organization == "A")
                 R.layout.github_item to ::SimpleUserViewHolder
             else

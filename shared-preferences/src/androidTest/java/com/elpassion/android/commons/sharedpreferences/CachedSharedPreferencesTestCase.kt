@@ -13,6 +13,7 @@ import org.mockito.Mockito.`when` as on
 @RunWith(AndroidJUnit4::class)
 class CachedSharedPreferencesTestCase {
 
+    @Suppress("UNCHECKED_CAST")
     val repositoryMock = Mockito.mock(SharedPreferenceRepository::class.java) as SharedPreferenceRepository<SimpleStructure>
     val cachingRepository = CachingSharedPreferenceRepository(repositoryMock)
 

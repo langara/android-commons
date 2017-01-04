@@ -1,6 +1,6 @@
 package com.elpassion.android.commons.recycler.components
 
-interface ItemsStrategy<T> {
+interface ItemsStrategy<out T> {
     fun allItems(): List<T>
 }
 

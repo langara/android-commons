@@ -3,15 +3,12 @@ package com.elpassion.android.commons.recycler_example.group
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
-import android.view.View
-import com.elpassion.android.commons.recycler.adapters.basicAdapterWithCreator
 import com.elpassion.android.commons.recycler.adapters.basicAdapterWithConstructors
 import com.elpassion.android.commons.recycler.basic.addAll
 import com.elpassion.android.commons.recycler.basic.asBasicListWithMutableSections
 import com.elpassion.android.commons.recycler.basic.asBasicMutableList
 import com.elpassion.android.commons.recycler_example.R
 import com.elpassion.android.commons.recycler_example.common.*
-import com.elpassion.android.view.inflate
 import kotlinx.android.synthetic.main.recycler_view_with_action.*
 import java.util.*
 
@@ -26,7 +23,7 @@ class BasicMutableRecyclerWithSectionsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recycler_view_with_action)
         recyclerView.layoutManager = android.support.v7.widget.LinearLayoutManager(this)
-        val adapter = basicAdapterWithConstructors<User>(users) { position ->
+        val adapter = basicAdapterWithConstructors(users) { position ->
             if (users[position].organization == "A")
                 R.layout.github_item to ::SimpleUserViewHolder
             else

@@ -1,6 +1,6 @@
 package com.elpassion.android.commons.recycler.basic
 
 
-interface BasicMap<Key, Value> {
+interface BasicMap<in Key, out Value> {
     operator fun get(key: Key): Value
 }
