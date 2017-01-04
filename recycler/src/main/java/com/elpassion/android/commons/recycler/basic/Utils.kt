@@ -3,7 +3,7 @@ package com.elpassion.android.commons.recycler.basic
 
 fun <Item> List<Item>.asBasicList(): BasicList<Item> = BasicListImpl(this)
 
-class BasicListImpl<Item>(val source: List<Item>) : BasicList<Item> {
+class BasicListImpl<Item>(private val source: List<Item>) : BasicList<Item> {
 
     override fun get(key: Int) = source[key]
 
@@ -13,7 +13,7 @@ class BasicListImpl<Item>(val source: List<Item>) : BasicList<Item> {
 
 fun <Item> MutableList<Item>.asBasicMutableList(): BasicMutableList<Item> = BasicMutableListImpl(this)
 
-class BasicMutableListImpl<Item>(val source: MutableList<Item>) : BasicMutableList<Item> {
+class BasicMutableListImpl<Item>(private val source: MutableList<Item>) : BasicMutableList<Item> {
 
     override val size: Int get() = source.size
 
@@ -54,7 +54,7 @@ fun <K, V> Map<K, List<V>>.asBasicMapOfBasicLists(): BasicMap<K, BasicList<V>?> 
 fun <Item, Section> Map<Section, List<Item>>.asBasicListWithSections(): BasicListWithSections<Item, Section>
         = BasicListWithSectionsImpl(this)
 
-class BasicListWithSectionsImpl<Item, Section>(val source: Map<Section, List<Item>>) : BasicListWithSections<Item, Section> {
+class BasicListWithSectionsImpl<Item, Section>(private val source: Map<Section, List<Item>>) : BasicListWithSections<Item, Section> {
 
     override val sections = source.asBasicMapOfBasicLists()
 
@@ -69,7 +69,7 @@ class BasicListWithSectionsImpl<Item, Section>(val source: Map<Section, List<Ite
 fun <Item, Section> MutableMap<Section, BasicMutableList<Item>>.asBasicListWithMutableSections(): BasicListWithMutableSections<Item, Section>
         = BasicListWithMutableSectionsImpl(this)
 
-class BasicListWithMutableSectionsImpl<Item, Section>(val source: MutableMap<Section, BasicMutableList<Item>>) : BasicListWithMutableSections<Item, Section> {
+class BasicListWithMutableSectionsImpl<Item, Section>(private val source: MutableMap<Section, BasicMutableList<Item>>) : BasicListWithMutableSections<Item, Section> {
 
     override val size: Int get() = source.values.map { it.size }.sum()
 
