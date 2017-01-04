@@ -1,35 +1,43 @@
 package com.elpassion.android.commons.recycler.basic
 
-fun <Item> List<Item>.asBasicList() = object : BasicList<Item> {
 
-    override fun get(key: Int) = this@asBasicList[key]
+fun <Item> List<Item>.asBasicList(): BasicList<Item> = BasicListImpl(this)
 
-    override val size: Int get() = this@asBasicList.size
+class BasicListImpl<Item>(val source: List<Item>) : BasicList<Item> {
+
+    override fun get(key: Int) = source[key]
+
+    override val size: Int get() = source.size
 }
 
-fun <Item> MutableList<Item>.asBasicMutableList() = object : BasicMutableList<Item> {
 
-    override val size: Int get() = this@asBasicMutableList.size
+fun <Item> MutableList<Item>.asBasicMutableList(): BasicMutableList<Item> = BasicMutableListImpl(this)
 
-    override fun get(key: Int) = this@asBasicMutableList[key]
+class BasicMutableListImpl<Item>(val source: MutableList<Item>) : BasicMutableList<Item> {
+
+    override val size: Int get() = source.size
+
+    override fun get(key: Int) = source[key]
 
     override fun set(key: Int, value: Item) {
-        this@asBasicMutableList[key] = value
+        source[key] = value
     }
 
-    override fun clear() = this@asBasicMutableList.clear()
+    override fun clear() = source.clear()
 
-    override fun insert(index: Int, item: Item) = add(index, item)
+    override fun insert(index: Int, item: Item) = source.add(index, item)
 
     override fun remove(index: Int) {
-        removeAt(index)
+        source.removeAt(index)
     }
 }
+
 
 fun <Item> BasicMutableList<Item>.add(item: Item) = insert(size, item)
 
+
 fun <Item> BasicMutableList<Item>.addAll(items: Iterable<Item>) {
-    for(item in items) add(item)
+    for (item in items) add(item)
 }
 
 
@@ -37,28 +45,37 @@ fun <K, V> Map<K, V>.asBasicMap() = object : BasicMap<K, V?> {
     override fun get(key: K) = this@asBasicMap[key]
 }
 
-fun <K, V> Map<K, List<V>>.asBasicMapOfBasicLists() = object : BasicMap<K, BasicList<V>?> {
+
+fun <K, V> Map<K, List<V>>.asBasicMapOfBasicLists(): BasicMap<K, BasicList<V>?> = object : BasicMap<K, BasicList<V>?> {
     override fun get(key: K) = this@asBasicMapOfBasicLists[key]?.asBasicList()
 }
 
-fun <Section, Item> Map<Section, List<Item>>.asBasicListWithSections() = object : BasicListWithSections<Item, Section> {
 
-    override val sections = this@asBasicListWithSections.asBasicMapOfBasicLists()
+fun <Item, Section> Map<Section, List<Item>>.asBasicListWithSections(): BasicListWithSections<Item, Section>
+        = BasicListWithSectionsImpl(this)
 
-    private val items = this@asBasicListWithSections.values.flatten()
+class BasicListWithSectionsImpl<Item, Section>(val source: Map<Section, List<Item>>) : BasicListWithSections<Item, Section> {
+
+    override val sections = source.asBasicMapOfBasicLists()
+
+    private val items = source.values.flatten()
 
     override fun get(key: Int) = items[key]
 
     override val size: Int get() = items.size
 }
 
-fun <Section, Item> MutableMap<Section, BasicMutableList<Item>>.asBasicListWithMutableSections() = object : BasicListWithMutableSections<Item, Section> {
 
-    override val size: Int get() = values.map { it.size }.sum()
+fun <Item, Section> MutableMap<Section, BasicMutableList<Item>>.asBasicListWithMutableSections(): BasicListWithMutableSections<Item, Section>
+        = BasicListWithMutableSectionsImpl(this)
+
+class BasicListWithMutableSectionsImpl<Item, Section>(val source: MutableMap<Section, BasicMutableList<Item>>) : BasicListWithMutableSections<Item, Section> {
+
+    override val size: Int get() = source.values.map { it.size }.sum()
 
     override fun get(key: Int): Item {
         var offset = 0
-        for (section in values) {
+        for (section in source.values) {
             if (key < offset + section.size) {
                 return section[key - offset]
             } else {
@@ -74,14 +91,14 @@ fun <Section, Item> MutableMap<Section, BasicMutableList<Item>>.asBasicListWithM
 
         override fun set(key: Section, value: BasicMutableList<Item>?) {
             if (value === null) {
-                remove(key)
+                source.remove(key)
             } else {
-                put(key, value)
+                source.put(key, value)
             }
         }
 
-        override fun clear() = this@asBasicListWithMutableSections.clear()
+        override fun clear() = source.clear()
 
-        override fun get(key: Section) = this@asBasicListWithMutableSections[key]
+        override fun get(key: Section) = source[key]
     }
 }
