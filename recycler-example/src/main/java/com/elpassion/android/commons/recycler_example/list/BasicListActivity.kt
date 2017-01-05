@@ -22,10 +22,10 @@ class BasicListActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         recyclerView.adapter = basicAdapterWithConstructors(users) { position ->
-            if (users[position].organization == "A")
-                R.layout.github_item to ::SimpleUserViewHolder
-            else
-                R.layout.other_github_item to ::OtherSimpleUserViewHolder
+            when (users[position].organization) {
+                "A" -> R.layout.github_item to ::SimpleUserViewHolder
+                else -> R.layout.other_github_item to ::OtherSimpleUserViewHolder
+            }
         }
     }
 

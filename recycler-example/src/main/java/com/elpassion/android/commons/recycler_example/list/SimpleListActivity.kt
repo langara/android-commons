@@ -20,8 +20,10 @@ class SimpleListActivity : AppCompatActivity() {
         val users = createManyUsers()
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = recyclerViewAdapter(adapters = users.map {
-            if (it.organization == "A") SimpleUserItemAdapter(it)
-            else OtherSimpleUserItemAdapter(it)
+            when (it.organization) {
+                "A" -> SimpleUserItemAdapter(it)
+                else -> OtherSimpleUserItemAdapter(it)
+            }
         })
     }
 
