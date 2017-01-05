@@ -10,6 +10,8 @@ import com.elpassion.android.commons.recycler.basic.asBasicListWithMutableSectio
 import com.elpassion.android.commons.recycler.basic.asBasicMutableList
 import com.elpassion.android.commons.recycler_example.R
 import com.elpassion.android.commons.recycler_example.common.*
+import com.elpassion.android.view.disable
+import com.elpassion.android.view.enable
 import kotlinx.android.synthetic.main.recycler_view_with_action.*
 import java.util.*
 
@@ -36,14 +38,14 @@ class BasicMutableRecyclerWithSectionsActivity : AppCompatActivity() {
         clearSectionButton.setOnClickListener {
             users.sections["A"]!!.clear()
             adapter.notifyDataSetChanged()
-            restoreSectionButton.isEnabled = true
-            clearSectionButton.isEnabled = false
+            restoreSectionButton.enable()
+            clearSectionButton.disable()
         }
         restoreSectionButton.setOnClickListener {
             users.sections["A"]!!.addAll(createUsersWithASection())
             adapter.notifyDataSetChanged()
-            restoreSectionButton.isEnabled = false
-            clearSectionButton.isEnabled = true
+            restoreSectionButton.disable()
+            clearSectionButton.enable()
         }
     }
 
