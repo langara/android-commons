@@ -1,3 +1,5 @@
+@file:JvmName("Adapters")
+
 package com.elpassion.android.commons.recycler.adapters
 
 import android.support.v7.widget.RecyclerView
