@@ -98,4 +98,15 @@ class UtilsTest {
         assertEquals(basicMapOfBasicLists["B"]!![1], "BB")
         assertNull(basicMapOfBasicLists["C"])
     }
+
+    @Test
+    fun shouldAddAllGivenItemsToBasicMutableList() {
+        val basicMutableList = basicMutableListOf("A")
+        basicMutableList.addAll(listOf("B", "C"))
+
+        assertEquals(basicMutableList.size, 3)
+        assertEquals(basicMutableList[0], "A")
+        assertEquals(basicMutableList[1], "B")
+        assertEquals(basicMutableList[2], "C")
+    }
 }
