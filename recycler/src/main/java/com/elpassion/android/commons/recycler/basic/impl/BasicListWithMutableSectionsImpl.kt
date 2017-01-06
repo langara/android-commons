@@ -2,11 +2,11 @@ package com.elpassion.android.commons.recycler.basic.impl
 
 import com.elpassion.android.commons.recycler.basic.BasicListWithMutableSections
 import com.elpassion.android.commons.recycler.basic.BasicMutableList
-import com.elpassion.android.commons.recycler.basic.BasicMutableMap
+import com.elpassion.android.commons.recycler.basic.asBasicMutableMap
 
-class BasicListWithMutableSectionsImpl<Item, Section>(private val source: MutableMap<Section, BasicMutableList<Item>>) : BasicListWithMutableSections<Item, Section> {
+class BasicListWithMutableSectionsImpl<Item, in Section>(private val source: MutableMap<Section, BasicMutableList<Item>>) : BasicListWithMutableSections<Item, Section> {
 
-    override val size: Int get() = source.values.map { it.size }.sum()
+    override val sections = source.asBasicMutableMap()
 
     override fun get(key: Int): Item {
         var offset = 0
@@ -20,20 +20,5 @@ class BasicListWithMutableSectionsImpl<Item, Section>(private val source: Mutabl
         throw IndexOutOfBoundsException()
     }
 
-    override val sections = Sections()
-
-    inner class Sections : BasicMutableMap<Section, BasicMutableList<Item>?> {
-
-        override fun set(key: Section, value: BasicMutableList<Item>?) {
-            if (value === null) {
-                source.remove(key)
-            } else {
-                source.put(key, value)
-            }
-        }
-
-        override fun clear() = source.clear()
-
-        override fun get(key: Section) = source[key]
-    }
+    override val size: Int get() = source.map { entry -> entry.value.size }.sum()
 }

@@ -3,13 +3,21 @@ package com.elpassion.android.commons.recycler.basic.impl
 import com.elpassion.android.commons.recycler.basic.BasicListWithSections
 import com.elpassion.android.commons.recycler.basic.asBasicMapOfBasicLists
 
-class BasicListWithSectionsImpl<Item, Section>(private val source: Map<Section, List<Item>>) : BasicListWithSections<Item, Section> {
+class BasicListWithSectionsImpl<out Item, in Section>(private val source: Map<Section, List<Item>>) : BasicListWithSections<Item, Section> {
 
     override val sections = source.asBasicMapOfBasicLists()
 
-    private val items = source.values.flatten()
+    override fun get(key: Int): Item {
+        var offset = 0
+        for (section in source.values) {
+            if (key < offset + section.size) {
+                return section[key - offset]
+            } else {
+                offset += section.size
+            }
+        }
+        throw IndexOutOfBoundsException()
+    }
 
-    override fun get(key: Int) = items[key]
-
-    override val size: Int get() = items.size
+    override val size: Int get() = source.map { entry -> entry.value.size }.sum()
 }
