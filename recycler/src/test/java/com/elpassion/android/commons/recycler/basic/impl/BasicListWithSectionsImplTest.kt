@@ -1,6 +1,7 @@
 package com.elpassion.android.commons.recycler.basic.impl
 
 import com.elpassion.android.commons.recycler.basic.BasicListWithSections
+import com.elpassion.android.commons.recycler.basic.asBasicListWithSections
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -74,7 +75,7 @@ class BasicListWithSectionsImplTest {
                 "A" to mutableListOf("AA", "AB"),
                 "B" to mutableListOf("BA")
         )
-        val basicListWithSections = BasicListWithSectionsImpl(source)
+        val basicListWithSections = source.asBasicListWithSections()
 
         assertEquals(basicListWithSections[0], "AA")
         assertEquals(basicListWithSections[1], "AB")
@@ -104,11 +105,11 @@ class BasicListWithSectionsImplTest {
 
     @Test
     fun shouldReturnCorrectValuesViaSectionsProperty() {
-        val basicListWithSections = BasicListWithSectionsImpl(mapOf(
+        val basicListWithSections = mapOf(
                 "A" to listOf("AA", "AB", "AC"),
                 "B" to listOf("BA", "BB", "BC"),
                 "C" to listOf("CA", "CB")
-        ))
+        ).asBasicListWithSections()
 
         assertEquals(basicListWithSections.sections["A"]!![0], "AA")
         assertEquals(basicListWithSections.sections["A"]!![1], "AB")
