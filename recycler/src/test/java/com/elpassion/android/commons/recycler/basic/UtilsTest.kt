@@ -109,4 +109,16 @@ class UtilsTest {
         assertEquals(basicMutableList[1], "B")
         assertEquals(basicMutableList[2], "C")
     }
+
+    @Test
+    fun shouldIterateOverBasicListWithForLoop() {
+        val basicList = basicListOf("A", "B", "C")
+        val result = mutableListOf<String>()
+
+        for(item in basicList)
+            result.add(item)
+
+        assertEquals(result, listOf("A", "B", "C"))
+
+    }
 }

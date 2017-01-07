@@ -34,3 +34,8 @@ fun <Item> BasicMutableList<Item>.addAll(items: Iterable<Item>) {
     for (item in items) add(item)
 }
 
+operator fun <Item> BasicList<Item>.iterator() = object : Iterator<Item> {
+    private var index = 0
+    override fun hasNext() = index < size
+    override fun next() = get(index++)
+}
