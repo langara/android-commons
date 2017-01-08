@@ -37,3 +37,29 @@ dependencies {
     testCompile "org.mockito:mockito-core:$test_mockito_core_version"
 }
 
+repositories {
+    mavenCentral()
+}
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+//task javadoc(type: Javadoc) {
+//    failOnError false
+//    source = android.sourceSets.main.java.sourceFiles
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//}
+//
+//// build a jar with javadoc
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.getDestinationDir()
+//}
+
+artifacts {
+    archives sourcesJar
+//    archives javadocJar
+}
