@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.elpassion.android.commons.recycler_example">
 
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -28,6 +30,8 @@
         <activity android:name=".group.StableMutableRecyclerWithSectionsActivity" />
 
         <activity android:name=".group.BasicMutableRecyclerWithSectionsActivity" />
+
+        <activity android:name=".group.BasicContactsListActivity" />
 
     </application>
 

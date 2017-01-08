@@ -26,7 +26,8 @@ class MenuActivity : AppCompatActivity() {
                 ExampleItem(name = BasicRecyclerWithSectionActivity.DESCRIPTION, onClick = { BasicRecyclerWithSectionActivity.start(this) }),
                 ExampleItem(name = MutableRecyclerWithSectionsActivity.DESCRIPTION, onClick = { MutableRecyclerWithSectionsActivity.start(this) }),
                 ExampleItem(name = StableMutableRecyclerWithSectionsActivity.DESCRIPTION, onClick = { StableMutableRecyclerWithSectionsActivity.start(this) }),
-                ExampleItem(name = BasicMutableRecyclerWithSectionsActivity.DESCRIPTION, onClick = { BasicMutableRecyclerWithSectionsActivity.start(this) })
+                ExampleItem(name = BasicMutableRecyclerWithSectionsActivity.DESCRIPTION, onClick = { BasicMutableRecyclerWithSectionsActivity.start(this) }),
+                ExampleItem(name = BasicContactsListActivity.DESCRIPTION, onClick = { BasicContactsListActivity.start(this) })
         ).asBasicList()
 
         recyclerView.adapter = basicAdapterWithLayoutAndBinder(examples, R.layout.example_item) { holder, item ->
