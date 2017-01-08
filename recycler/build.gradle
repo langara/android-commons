@@ -9,16 +9,19 @@ buildscript {
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.github.langara'
 
 android {
-    compileSdkVersion commonCompileSdkVersion()
-    buildToolsVersion commonBuildToolsVersion()
+    compileSdkVersion compile_sdk_version
+    buildToolsVersion build_tools_version
 
     defaultConfig {
-        minSdkVersion commonMinSdkVersion()
-        targetSdkVersion commonTargetSdkVersion()
-        versionCode commonVersionCode()
-        versionName commonVersionName()
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+        versionCode version_code
+        versionName version_name
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 }
@@ -28,10 +31,9 @@ dependencies {
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:recyclerview-v7:$support_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    androidTestCompile "com.android.support.test:runner:$test_runner"
-    androidTestCompile 'junit:junit:4.12'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile "com.android.support.test:runner:$test_runner_version"
+    androidTestCompile "junit:junit:$test_junit_version"
+    testCompile "junit:junit:$test_junit_version"
+    testCompile "org.mockito:mockito-core:$test_mockito_core_version"
 }
 
-apply from: '../gradle/upload-archives.gradle'

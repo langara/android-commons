@@ -1,24 +1,33 @@
-import java.util.regex.Pattern
-
 buildscript {
-    ext.support_version = '23.2.1'
-    ext.kotlin_version = '1.0.5-2'
+    ext.version_code = 666
+    ext.version_name = '0.0.666'
+    ext.kotlin_version = '1.0.6'
+    ext.android_gradle_version = '2.3.0-beta1'
+    ext.android_maven_gradle_version = '1.5'
+    ext.compile_sdk_version = 25
+    ext.build_tools_version = '25.0.1'
+    ext.min_sdk_version = 16
+    ext.target_sdk_version =25
+    ext.support_version = '25.1.0'
+    ext.gson_version = '2.8.0'
     ext.espresso_version = '2.2.2'
-    ext.test_runner = '0.5'
+    ext.test_junit_version = '4.12'
+    ext.test_runner_version = '0.5'
+    ext.test_mockito_core_version = '1.10.19'
+    ext.test_dexmaker_version = '1.2'
     repositories {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
+        classpath "com.android.tools.build:gradle:$android_gradle_version"
+        classpath "com.github.dcendents:android-maven-gradle-plugin:$android_maven_gradle_version"
     }
 }
-
-apply plugin: 'com.github.ben-manes.versions'
 
 allprojects {
     repositories {
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -26,52 +35,3 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-task updateVersionName {
-    doLast {
-        def gradlePropertiesFile = new File('gradle.properties')
-        def matcher = Pattern.compile('COMMON_VERSION_NAME=(\\d+.\\d+.\\d+)').matcher(gradlePropertiesFile.text)
-        if (matcher.find()) {
-            def gradlePropertiesText = new StringBuilder(gradlePropertiesFile.text).replace(matcher.start(1), matcher.end(1), versionName)
-            gradlePropertiesFile.text = gradlePropertiesText
-        }
-    }
-}
-
-task updateReadme {
-    doLast {
-        def readmeFile = new File('README.md')
-        def matcher = Pattern.compile("com.elpassion.android.commons:\\w+-?\\w+:(\\d+.\\d+.\\d+)").matcher(readmeFile.text)
-        while (matcher.find()) {
-            def readmeText = new StringBuilder(readmeFile.text).replace(matcher.start(1), matcher.end(1), "${commonVersionName()}")
-            readmeFile.text = readmeText
-        }
-    }
-}
-
-int commonVersionCode() {
-    return 1
-}
-
-String commonVersionName() {
-    return COMMON_VERSION_NAME
-}
-
-int commonCompileSdkVersion() {
-    return 23
-}
-
-int commonTargetSdkVersion() {
-    return commonCompileSdkVersion()
-}
-
-int commonMinSdkVersion() {
-    return 16
-}
-
-String commonBuildToolsVersion() {
-    return '24.0.0'
-}
-
-boolean isCI() {
-    return "true" == System.env.CI
-}

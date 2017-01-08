@@ -9,16 +9,19 @@ buildscript {
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.github.langara'
 
 android {
-    compileSdkVersion commonCompileSdkVersion()
-    buildToolsVersion commonBuildToolsVersion()
+    compileSdkVersion compile_sdk_version
+    buildToolsVersion build_tools_version
 
     defaultConfig {
-        minSdkVersion commonMinSdkVersion()
-        targetSdkVersion commonTargetSdkVersion()
-        versionCode commonVersionCode()
-        versionName commonVersionName()
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+        versionCode version_code
+        versionName version_name
     }
     lintOptions {
         disable 'InvalidPackage'
@@ -41,4 +44,3 @@ dependencies {
     }
 }
 
-apply from: '../gradle/upload-archives.gradle'

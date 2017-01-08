@@ -9,36 +9,38 @@ buildscript {
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.github.langara'
 
 android {
-    compileSdkVersion commonCompileSdkVersion()
-    buildToolsVersion commonBuildToolsVersion()
+    compileSdkVersion compile_sdk_version
+    buildToolsVersion build_tools_version
 
     defaultConfig {
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+        versionCode version_code
+        versionName version_name
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        minSdkVersion commonMinSdkVersion()
-        targetSdkVersion commonTargetSdkVersion()
-        versionCode commonVersionCode()
-        versionName commonVersionName()
     }
 }
 
 dependencies {
     compile "com.android.support:appcompat-v7:$support_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "com.google.code.gson:gson:2.8.0"
+    compile "com.google.code.gson:gson:$gson_version"
 
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile "com.android.support.test:runner:$test_runner"
-    androidTestCompile('org.mockito:mockito-core:1.10.19') {
+    androidTestCompile "junit:junit:$test_junit_version"
+    androidTestCompile "com.android.support.test:runner:$test_runner_version"
+    androidTestCompile("org.mockito:mockito-core:$test_mockito_core_version") {
         exclude group: 'org.hamcrest'
     }
-    androidTestCompile('com.google.dexmaker:dexmaker:1.2') {
+    androidTestCompile("com.google.dexmaker:dexmaker:$test_dexmaker_version") {
         exclude group: 'org.hamcrest'
     }
-    androidTestCompile('com.google.dexmaker:dexmaker-mockito:1.2') {
+    androidTestCompile("com.google.dexmaker:dexmaker-mockito:$test_dexmaker_version") {
         exclude group: 'org.hamcrest'
     }
 }
 
-apply from: '../gradle/upload-archives.gradle'
